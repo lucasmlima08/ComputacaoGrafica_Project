@@ -1,0 +1,116 @@
+﻿<Window x:Class="ComputacaoGraficaProject.ProjectPrimitivas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComputacaoGraficaProject"
+        mc:Ignorable="d"
+        Title="Primitivas" WindowState="Maximized" WindowStartupLocation="CenterScreen" Icon="Imagens/icon_cg.jpg" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="830.5" Width="1032">
+    <Grid>
+        <TabControl x:Name="tabControl" Margin="0">
+            <TabItem>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="220"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="154"/>
+                            <RowDefinition Height="113"/>
+                            <RowDefinition Height="155"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Desenhar Retas" Margin="0" VerticalAlignment="Bottom" Height="300" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+                            <Grid Margin="0">
+                                <Label Content="X:" Margin="10,15,0,0" RenderTransformOrigin="1.632,1.582" HorizontalAlignment="Left" VerticalAlignment="Top" Width="34" HorizontalContentAlignment="Center"/>
+                                <TextBox x:Name="Y_Reta" Height="26" Margin="153,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" HorizontalAlignment="Left" UndoLimit="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="Y:" Margin="113,15,0,0" RenderTransformOrigin="1.632,1.582" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" HorizontalContentAlignment="Center"/>
+                                <TextBox x:Name="X_Reta" Height="26" Margin="49,15,0,0" TextWrapping="Wrap" Width="45" HorizontalAlignment="Left" VerticalAlignment="Top" UndoLimit="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Button x:Name="bDesenharRetaDDA" Content="Desenhar por DDA" VerticalAlignment="Bottom" Margin="10,0,10,34.96" Click="desenharReta_Click"/>
+                                <Button x:Name="bDesenharRetaPontoMedio" Content="Desenhar por Ponto Médio" VerticalAlignment="Bottom" Margin="10,0,10,10" Click="desenharReta_Click"/>
+                                <ListView x:Name="listViewPontos" Margin="10,88.92,10,59.92" HorizontalContentAlignment="Center" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Foreground="Black" BorderThickness="1" Height="130" Width="190">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="X" Width="90" DisplayMemberBinding="{Binding X}" />
+                                            <GridViewColumn Header="Y" Width="90" DisplayMemberBinding="{Binding Y}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <Button x:Name="adicionarReta" Content="Adicionar Ponto" Margin="10,46,10,0" VerticalAlignment="Top" Click="adicionarCoordenadaReta_Click"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Desenhar Circunferência" Margin="0,1,0,0" Grid.Row="2" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Height="150" VerticalAlignment="Top">
+                            <Grid Margin="0">
+                                <Label Content="Raio: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22.893,7.04,0,0"/>
+                                <TextBox x:Name="raioCircunferencia" Height="23" Margin="67,10,21,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" UndoLimit="3"/>
+                                <Button Content="Ponto Médio" VerticalAlignment="Bottom" Margin="10,0,10,60" Click="CircunferenciaPontoMedio_Click"/>
+                                <Button x:Name="circunferenciaEquacaoExplicita" Content="Equação Explícita" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="188" Click="circunferenciaEquacaoExplicita_Click"/>
+                                <Button x:Name="circunferenciaTrigonometrico" Content="Método Trigonométrico" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="188" Click="circunferenciaTrigonometrico_Click"/>
+                            </Grid>
+                        </GroupBox>
+                        <Grid Margin="0,151,0,8" Grid.Row="2" Grid.RowSpan="2">
+                            <GroupBox x:Name="groupBox2" Header="DesenharElipse" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="220" BorderBrush="#FF6A6F72">
+                                <Grid Margin="0,0,0,-4">
+                                    <Button x:Name="btn_DesenharElipse" Content="Desenhar Elipse" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="188" Click="btn_DesenharElipse_Click"/>
+                                    <Label x:Name="label" Content="A:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"/>
+                                    <TextBox x:Name="a_elipse" HorizontalAlignment="Left" Height="23" Margin="35,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="50"/>
+                                    <Label x:Name="label1" Content="B:" HorizontalAlignment="Left" Margin="111,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.456,0.09"/>
+                                    <TextBox x:Name="b_elipse" HorizontalAlignment="Left" Height="23" Margin="135,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="50"/>
+
+                                </Grid>
+                            </GroupBox>
+
+                        </Grid>
+
+                    </Grid>
+                    <Grid Margin="0" Grid.Column="1">
+                        <Grid.Background>
+                            <ImageBrush/>
+                        </Grid.Background>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="layoutImagem">
+                            <Label x:Name="imagemLabelAbscissas" MouseEnter="imagemDraw_MouseEnter" MouseLeave="imagemDraw_MouseLeave" MouseDown="imagemDraw_MouseDown" MouseMove="imagemDraw_MouseMove" Margin="0">
+                                <Label.Background>
+                                    <ImageBrush x:Name="imagemDrawAbscissas"/>
+                                </Label.Background>
+                            </Label>
+                            <Label x:Name="imagemLabel" MouseEnter="imagemDraw_MouseEnter" MouseLeave="imagemDraw_MouseLeave" MouseDown="imagemDraw_MouseDown" MouseMove="imagemDraw_MouseMove" Margin="0">
+                                <Label.Background>
+                                    <ImageBrush x:Name="imagemDraw" ImageSource="Imagens/cg_nome.png" Stretch="Uniform"/>
+                                </Label.Background>
+                            </Label>
+                        </Grid>
+                        <Grid Margin="0" Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                            <Label x:Name="resolucaoTela" Content="Resolução da Tela: 0x0" HorizontalAlignment="Right" Margin="0" d:LayoutOverrides="Height"/>
+                            <Button Content="Limpar Tela" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Click="limparTela_Click" Margin="225,10,203,20"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <GroupBox x:Name="groupBox1" Header="Posição do Cursor" Grid.Row="4" VerticalAlignment="Bottom" Height="109" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Margin="0,0,0,45">
+                            <Grid Margin="0,0,0,13">
+                                <Label x:Name="pontoNormalizacao" Content="Normalização: " HorizontalAlignment="Center" Margin="10,37,10,0" Width="188" FontSize="9.333" VerticalAlignment="Top"/>
+                                <Label x:Name="pontoCoordenadaDispositivo" Content="Coordenada do Dispositivo: " HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,10,-7" Width="188" FontSize="9.333"/>
+                                <Label x:Name="pontoCoordenadaMundo" Content="Coordenada de Mundo: " Margin="10,15,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" FontSize="9.333"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
