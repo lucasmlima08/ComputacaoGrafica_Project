@@ -82,7 +82,7 @@
                             </Label>
                             <Label x:Name="imagemLabel" MouseEnter="imagemDraw_MouseEnter" MouseLeave="imagemDraw_MouseLeave" MouseDown="imagemDraw_MouseDown" MouseMove="imagemDraw_MouseMove" Margin="0">
                                 <Label.Background>
-                                    <ImageBrush x:Name="imagemDraw" ImageSource="Imagens/cg_nome.png" Stretch="Uniform"/>
+                                    <ImageBrush x:Name="imagemDraw" Stretch="Uniform"/>
                                 </Label.Background>
                             </Label>
                         </Grid>

@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Projeto de Computação Gráfica" WindowState="Maximized" WindowStartupLocation="CenterScreen" Icon="Imagens/icon_cg.jpg" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="830.5" Width="1032">
     <Grid>
-        <Image x:Name="image" Margin="0" Source="Imagens/icon_cg.jpg"/>
+        <Image x:Name="image" Margin="0" Source="Imagens/cg_nome.png" VerticalAlignment="Top" HorizontalAlignment="Center" Height="200"/>
         <StackPanel HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Orientation="Horizontal">
-            <Button x:Name="bPrimitivas" Content="Primitivas" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
-            <Button x:Name="bTransformacoes2D" Content="Transformações 2D" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
-            <Button x:Name="bTransformacoes3D" Content="Transformações 3D" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
-            <Button x:Name="bProcessamento" Content="Processamento" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
+            <Button x:Name="bPrimitivas" Content="Primitivas" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
+            <Button x:Name="bTransformacoes2D" Content="Transformações 2D" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
+            <Button x:Name="bTransformacoes3D" Content="Transformações 3D" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
+            <Button x:Name="bProcessamento" Content="Processamento" Width="200" Height="100" FontFamily="Trebuchet MS" FontSize="18" Click="projetos_Click" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -27,7 +27,7 @@ namespace ComputacaoGraficaProject.Model
 
         public void listaParaViewDeCoordenadasDeRetas2D()
         {
-            //References.coordenadasDeRetas.Items.Clear();
+            Referencias.listViewRetas.Items.Clear();
             for (int i=0; i < Referencias.listaRetas.Count; i++)
             {
                 Referencias.listViewRetas.Items.Add(new ObjectPonto2D
@@ -40,7 +40,7 @@ namespace ComputacaoGraficaProject.Model
 
         public void listaParaViewDeCoordenadasDeRetas3D()
         {
-            //References.coordenadasDeRetas.Items.Clear();
+            Referencias.listViewRetas.Items.Clear();
             for (int i = 0; i < Referencias.listaRetas.Count; i++)
             {
                 Referencias.listViewRetas.Items.Add(new ObjectPonto3D

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using ComputacaoGraficaProject.Model;
 using ComputacaoGraficaProject.View;
 using ComputacaoGraficaProject.Sintese.Primitivas;
 
@@ -153,6 +154,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             return novaMatriz;
         }
         
+        // Retorna a matriz identidade.
         public List<double[]> matriz_identidade()
         {
             List<double[]> matrizIdentidade = new List<double[]>();
@@ -163,7 +165,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             return matrizIdentidade;
         }
         
-        /* Percorre o conjunto de transformações e realiza todas em sequênca. */
+        // Percorre o conjunto de transformações e realiza todas em sequênca.
         public void conjuntoDeTransformacoes(List<double[]> transformacoes)
         {
             // Explicação:
@@ -207,12 +209,13 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             matrizTransformada.Clear();
         }
 
-        /* Atualiza a lista de coordenadas e a imagem na tela */
+        // Atualiza a lista de coordenadas e a imagem na tela.
         private void atualizarInterface()
         {
             Retas retas = new Retas(imagem);
             retas.desenharRetas_PontoMedio(Referencias.listaRetas);
             retas.atualizarImagem();
+            new Functions().listaParaViewDeCoordenadasDeRetas2D();
         }
     }
 }

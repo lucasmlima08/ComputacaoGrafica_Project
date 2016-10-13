@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using ComputacaoGraficaProject.Model;
 using ComputacaoGraficaProject.View;
 using ComputacaoGraficaProject.Sintese.Primitivas;
 
@@ -82,9 +83,9 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
 
         public void method_Reflexao(double tipo)
         {
-            // Se tipo = 1, rotaciona em XY.
-            // Se tipo = 2, rotaciona em YZ.
-            // Se tipo = 3, rotaciona em XZ.
+            // Se tipo = 1, reflete em XY.
+            // Se tipo = 2, reflete em YZ.
+            // Se tipo = 3, reflete em XZ.
 
             List<double[]> matrizReflexao = new List<double[]>();
 
@@ -117,9 +118,10 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
         {
             // Matriz do cisalhamento
             List<double[]> matrizCisalhamento = new List<double[]>();
-            matrizCisalhamento.Add(new double[] { 1+(cisalhamento_X*cisalhamento_Y), cisalhamento_X, 0 });
-            matrizCisalhamento.Add(new double[] { cisalhamento_Y, 1, 0 });
-            matrizCisalhamento.Add(new double[] { 0, 0, 1 });
+            matrizCisalhamento.Add(new double[] { 1, 0, cisalhamento_X, 0 });
+            matrizCisalhamento.Add(new double[] { 0, 1, cisalhamento_Y, 0 });
+            matrizCisalhamento.Add(new double[] { 0, 0, 1, 0});
+            matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
 
             matrizTransformada = multiplicar(matrizTransformada, matrizCisalhamento);
         }
@@ -214,12 +216,13 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             matrizTransformada.Clear();
         }
 
-        /* Atualiza a lista de coordenadas e a imagem na tela */
+        // Atualiza a lista de coordenadas do objeto na imagem.
         private void atualizarInterface()
         {
             Retas retas = new Retas(imagem);
             retas.desenharRetas_PontoMedio(Referencias.listaRetas);
             retas.atualizarImagem();
+            new Functions().listaParaViewDeCoordenadasDeRetas3D();
         }
     }
 }

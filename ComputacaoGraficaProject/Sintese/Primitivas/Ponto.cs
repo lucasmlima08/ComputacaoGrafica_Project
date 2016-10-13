@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows;
 using ComputacaoGraficaProject.View;
 
 namespace ComputacaoGraficaProject.Sintese.Primitivas
@@ -77,11 +78,14 @@ namespace ComputacaoGraficaProject.Sintese.Primitivas
         {
             this.imagem = imagem;
 
-            int X_Dispositivo = X_MundoParaDispositivo(X);
-            int Y_Dispositivo = Y_MundoParaDispositivo(Y);
+            try
+            {
+                int X_Dispositivo = X_MundoParaDispositivo(X);
+                int Y_Dispositivo = Y_MundoParaDispositivo(Y);
 
-            imagem.SetPixel(X_Dispositivo, Y_Dispositivo, corDoPixel);
-
+                imagem.SetPixel(X_Dispositivo, Y_Dispositivo, corDoPixel);
+            }
+            catch (Exception) {}
         }
 
         public Bitmap getImage()

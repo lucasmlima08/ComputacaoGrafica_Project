@@ -20,9 +20,7 @@ namespace ComputacaoGraficaProject
         public ProjectTransformacoes2D()
         {
             InitializeComponent();
-
-            //apagarCamposSintese();
-
+        
             Referencias.imagemDraw = imagemDraw;
             Referencias.imageDrawAbscissas = imagemDrawAbscissas;
 
@@ -39,6 +37,7 @@ namespace ComputacaoGraficaProject
         private int sizeImageX = 0;
         private int sizeImageY = 0;
 
+        // Método de criação e verificação da imagem.
         private Boolean validacaoImagem()
         {
             if (!imagemIniciada)
@@ -59,19 +58,35 @@ namespace ComputacaoGraficaProject
             return true;
         }
 
-        /* -----------------  BOTAO DE LIMPAR A TELA ----------------------------------------- */
-        private void limparTela_Click(object sender, EventArgs e)
+        // Reseta a imagem atual.
+        private void resetarImagem()
         {
             imagemIniciada = false;
-            listViewPontos.Items.Clear();
             validacaoImagem();
-            Referencias.listaRetas.Clear();
         }
 
-        /* ------------------- INÍCIO: PARTE DE TRANSFORMAÇÕE 2D ------------------------------- */
+        // Evento de limpar os objetos da tela.
+        private void limparTela_Click(object sender, EventArgs e)
+        {
+            limparDados();
+            imagemIniciada = false;
+            validacaoImagem();
+        }
+
+        // Limpar dados.
+        private void limparDados()
+        {
+            Referencias.listaRetas.Clear();
+            Referencias.listViewRetas.Items.Clear();
+            X_Translacao.Text = ""; Y_Translacao.Text = "";
+            X_Escala.Text = ""; Y_Escala.Text = "";
+            anguloRotacao.Text = "";
+            X_Cisalhamento.Text = ""; Y_Cisalhamento.Text = "";
+        }
 
         private List<double[]> listaTransformacoes = new List<double[]>();
 
+        // Evento de envio das transformações definidas.
         private void transformar_Click(object sender, RoutedEventArgs e)
         {
             if (validacaoImagem())
@@ -98,8 +113,8 @@ namespace ComputacaoGraficaProject
             }
             else if (button == tEscalonar)
             {
-                info = new double[] { 2, Double.Parse(X_escala.Text), Double.Parse(Y_escala.Text) };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Escalonar(" + X_escala.Text + "," + Y_escala.Text + ")" });
+                info = new double[] { 2, Double.Parse(X_Escala.Text), Double.Parse(Y_Escala.Text) };
+                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Escalonar(" + X_Escala.Text + "," + Y_Escala.Text + ")" });
             }
             else if (button == tRotacionar)
             {
@@ -135,8 +150,8 @@ namespace ComputacaoGraficaProject
         // Cria um quadrado.
         private void btn_inserirQuadrado_Click(object sender, RoutedEventArgs e)
         {
-            imagemIniciada = false;
-            validacaoImagem();
+            limparDados();
+            resetarImagem();
 
             int tam = 100;
 
@@ -156,8 +171,8 @@ namespace ComputacaoGraficaProject
         // Cria um triângulo.
         private void btn_inserirTriangulo_Click(object sender, RoutedEventArgs e)
         {
-            imagemIniciada = false;
-            validacaoImagem();
+            limparDados();
+            resetarImagem();
 
             int tam = 100;
 
@@ -182,7 +197,5 @@ namespace ComputacaoGraficaProject
                 listViewPontos.Items.Add(new Functions.ObjectPonto2D { X = listaRetas[i][0] + "", Y = listaRetas[i][1] + "" });
             }
         }
-
-        /* ------------------- FINAL: PARTE DE TRANSFORMAÇÕES 2D ------------------------------- */
     }
 }
