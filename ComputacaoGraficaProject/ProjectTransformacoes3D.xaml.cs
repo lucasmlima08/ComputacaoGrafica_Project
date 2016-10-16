@@ -70,6 +70,7 @@ namespace ComputacaoGraficaProject
         private void limparTela_Click(object sender, EventArgs e)
         {
             limparDados();
+            resetarImagem();
         }
 
         // Limpar dados.
@@ -157,7 +158,9 @@ namespace ComputacaoGraficaProject
             }
             else if (button == tCisalhar)
             {
-                info = new double[] { 5, double.Parse(X_Cisalhamento.Text), double.Parse(Y_Cisalhamento.Text), double.Parse(Z_Cisalhamento.Text) };
+                // Escolher o eixo.
+
+                info = new double[] { 5, double.Parse(X_Cisalhamento.Text), double.Parse(Y_Cisalhamento.Text), double.Parse(Z_Cisalhamento.Text), 1 };
                 listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Cisalhar(" + double.Parse(X_Cisalhamento.Text) + ", " + double.Parse(Y_Cisalhamento.Text) + ", " + double.Parse(Z_Cisalhamento.Text) + ")" });
             }
 

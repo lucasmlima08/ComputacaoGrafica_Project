@@ -12,8 +12,6 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
     {
         private Bitmap imagem;
         private Ponto ponto;
-        private List<List<double[]>> transformacoes = new List<List<double[]>>();
-        private List<double[]> matrizTransformada;
 
         public Transformacoes3D()
         {
@@ -21,31 +19,32 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             imagem = new Bitmap(Referencias.sizeImageX, Referencias.sizeImageY);
         }
 
-        public void method_Translacao(double translacao_X, double translacao_Y, double translacao_Z)
+        // Retorna a matriz de translação.
+        public List<double[]> transladar(double X, double Y, double Z)
         {
-            // Matriz da translacao
             List<double[]> matrizTranslacao = new List<double[]>();
-            matrizTranslacao.Add(new double[] {1, 0, 0, translacao_X});
-            matrizTranslacao.Add(new double[] { 0, 1, 0, translacao_Y });
-            matrizTranslacao.Add(new double[] { 0, 0, 1 , translacao_Z });
+            matrizTranslacao.Add(new double[] { 1, 0, 0, X });
+            matrizTranslacao.Add(new double[] { 0, 1, 0, Y });
+            matrizTranslacao.Add(new double[] { 0, 0, 1, Z });
             matrizTranslacao.Add(new double[] { 0, 0, 0, 1 });
 
-            matrizTransformada = multiplicar(matrizTransformada, matrizTranslacao);
+            return matrizTranslacao;
         }
 
-        public void method_Escala(double x_escala, double y_escala, double z_escala)
+        // Retorna a matriz de escala.
+        public List<double[]> escalonar(double X, double Y, double Z)
         {
-            // Matriz do Escala
             List<double[]> matrizEscala = new List<double[]>();
-            matrizEscala.Add(new double[] { x_escala, 0, 0, 0});
-            matrizEscala.Add(new double[] { 0, y_escala, 0, 0});
-            matrizEscala.Add(new double[] { 0, 0, z_escala, 0});
-            matrizEscala.Add(new double[] { 0, 0, 0, 1});
+            matrizEscala.Add(new double[] { X, 0, 0, 0 });
+            matrizEscala.Add(new double[] { 0, Y, 0, 0 });
+            matrizEscala.Add(new double[] { 0, 0, Z, 0 });
+            matrizEscala.Add(new double[] { 0, 0, 0, 1 });
 
-            matrizTransformada = multiplicar(matrizTransformada, matrizEscala);
+            return matrizEscala;
         }
 
-        public void method_Rotacao(double angulo, double eixo)
+        // Retorna a matriz de rotação.
+        public List<double[]> rotacionar(double angulo, double eixo)
         {
             double anguloRadianos = Math.PI * angulo / 180;
 
@@ -78,52 +77,72 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
                 matrizRotacao.Add(new double[] { 0, 0, 0, 1 });
             }
 
-            matrizTransformada = multiplicar(matrizTransformada, matrizRotacao);
+            return matrizRotacao;
         }
 
-        public void method_Reflexao(double tipo)
+        // Retorna a matriz de reflexão.
+        public List<double[]> refletir(double eixo)
         {
-            // Se tipo = 1, reflete em XY.
-            // Se tipo = 2, reflete em YZ.
-            // Se tipo = 3, reflete em XZ.
+            // Se tipo = 1, reflete em torno do eixo X.
+            // Se tipo = 2, reflete em torno do eixo Y.
+            // Se tipo = 3, reflete em torno do eixo Z.
 
             List<double[]> matrizReflexao = new List<double[]>();
 
-            if (tipo == 1)
-            {
-                matrizReflexao.Add(new double[] { 1, 0, 0, 0 });
-                matrizReflexao.Add(new double[] { 0, 1, 0, 0 });
-                matrizReflexao.Add(new double[] { 0, 0, -1, 0 });
-                matrizReflexao.Add(new double[] { 0, 0, 0, 1 });
-            }
-            else if (tipo == 2)
-            {
-                matrizReflexao.Add(new double[] { -1, 0, 0, 0 });
-                matrizReflexao.Add(new double[] { 0, 1, 0, 0 });
-                matrizReflexao.Add(new double[] { 0, 0, 1, 0 });
-                matrizReflexao.Add(new double[] { 0, 0, 0, 1 });
-            }
-            else if (tipo == 3)
+            if (eixo == 1) // Eixo X
             {
                 matrizReflexao.Add(new double[] { 1, 0, 0, 0 });
                 matrizReflexao.Add(new double[] { 0, -1, 0, 0 });
                 matrizReflexao.Add(new double[] { 0, 0, 1, 0 });
                 matrizReflexao.Add(new double[] { 0, 0, 0, 1 });
             }
+            else if (eixo == 2) // Eixo Y
+            {
+                matrizReflexao.Add(new double[] { -1, 0, 0, 0 });
+                matrizReflexao.Add(new double[] { 0, 1, 0, 0 });
+                matrizReflexao.Add(new double[] { 0, 0, 1, 0 });
+                matrizReflexao.Add(new double[] { 0, 0, 0, 1 });
+            }
+            else if (eixo == 3) // Eixo Z
+            {
+                matrizReflexao.Add(new double[] { 1, 0, 0, 0 });
+                matrizReflexao.Add(new double[] { 0, 1, 0, 0 });
+                matrizReflexao.Add(new double[] { 0, 0, -1, 0 });
+                matrizReflexao.Add(new double[] { 0, 0, 0, 1 });
+            }
 
-            matrizTransformada = multiplicar(matrizTransformada, matrizReflexao);
+            return matrizReflexao;
         }
 
-        public void method_Cisalhamento(double cisalhamento_X, double cisalhamento_Y)
+        // Retorna a matriz do cisalhamento.
+        public List<double[]> cisalhar(double X, double Y, double Z, double eixo)
         {
             // Matriz do cisalhamento
             List<double[]> matrizCisalhamento = new List<double[]>();
-            matrizCisalhamento.Add(new double[] { 1, 0, cisalhamento_X, 0 });
-            matrizCisalhamento.Add(new double[] { 0, 1, cisalhamento_Y, 0 });
-            matrizCisalhamento.Add(new double[] { 0, 0, 1, 0});
-            matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
 
-            matrizTransformada = multiplicar(matrizTransformada, matrizCisalhamento);
+            if (eixo == 1) // Eixo X
+            {
+                matrizCisalhamento.Add(new double[] { 1, 0, 0, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 1, Y, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, Z, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
+            }
+            else if (eixo == 2) // Eixo Y
+            {
+                matrizCisalhamento.Add(new double[] { 1, 0, X, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 1, 0, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, Z, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
+            }
+            else if (eixo == 3) // Eixo Z
+            {
+                matrizCisalhamento.Add(new double[] { 1, 0, X, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 1, Y, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, 1, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
+            }
+
+            return matrizCisalhamento;
         }
 
         // Retorna a multiplicação de duas matrizes.
@@ -145,7 +164,6 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
                     }
                 }
             }
-
             // Passando para a lista.
             for (int i = 0; i < a; i++)
             {
@@ -161,7 +179,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
         }
 
         // Retorna a matriz identidade.
-        public List<double[]> matriz_identidade()
+        public List<double[]> matrizIdentidade()
         {
             List<double[]> matrizIdentidade = new List<double[]>();
             matrizIdentidade.Add(new double[] { 1, 0, 0, 0 });
@@ -175,40 +193,72 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
         /* Percorre o conjunto de transformações e realiza todas em sequênca. */
         public void conjuntoDeTransformacoes(List<double[]> transformacoes)
         {
-            // Explicação:
-            // O array de números inteiros indica:
-            // Posição 0: O número que indica qual será a transformação (1, 2, 3, 4 ou 5).
-            // Posição n: Os parâmetros solicitados de acordo com a transformação.
+            // Inicia a matriz de transformação.
+            List<double[]> matrizTransformada = matrizIdentidade();
 
-            // Inicia a matriz transformada.
-            matrizTransformada = matriz_identidade();
-
-            for (int i=0; i < transformacoes.Count; i++)
+            // Pega as menores coordenadas das retas.
+            double X_original = 0, Y_original = 0, Z_original = 0;
+            for (int i = 0; i < Referencias.listaRetas.Count; i++)
             {
-                if (transformacoes[i][0] == 1)
+                if (Referencias.listaRetas[i][0] < X_original)
                 {
-                    method_Translacao(transformacoes[i][1], transformacoes[i][2], transformacoes[i][3]);
+                    X_original = Referencias.listaRetas[i][0];
                 }
-                else if (transformacoes[i][0] == 2)
+                if (Referencias.listaRetas[i][1] < Y_original)
                 {
-                    method_Escala(transformacoes[i][1], transformacoes[i][2], transformacoes[i][2]);
+                    Y_original = Referencias.listaRetas[i][1];
                 }
-                else if (transformacoes[i][0] == 3)
+                if (Referencias.listaRetas[i][2] < Z_original)
                 {
-                    method_Rotacao(transformacoes[i][1], transformacoes[i][2]);
-                }
-                else if (transformacoes[i][0] == 4)
-                {
-                    method_Reflexao(transformacoes[i][1]);
-                }
-                else if (transformacoes[i][0] == 5)
-                {
-                    method_Cisalhamento(transformacoes[i][1], transformacoes[i][2]);
+                    Z_original = Referencias.listaRetas[i][2];
                 }
             }
 
-            // Atualiza a interface com as transformações.
+            // Translada para a origem.
+            matrizTransformada = multiplicar(matrizTransformada, transladar(-X_original, -Y_original, -Z_original));
+
+            // Aplica as transformações.
+            for (int i=0; i < transformacoes.Count; i++)
+            {
+                List<double[]> transformacao = matrizIdentidade();
+
+                // Explicação:
+                // O array de números inteiros indica:
+                // Posição 0: O número que indica qual será a transformação (1, 2, 3, 4 ou 5).
+                // Posição n: Os parâmetros solicitados de acordo com a transformação.
+
+                if (transformacoes[i][0] == 1)
+                {
+                    transformacao = transladar(transformacoes[i][1], transformacoes[i][2], transformacoes[i][3]);
+                }
+                else if (transformacoes[i][0] == 2)
+                {
+                    transformacao = escalonar(transformacoes[i][1], transformacoes[i][2], transformacoes[i][2]);
+                }
+                else if (transformacoes[i][0] == 3)
+                {
+                    transformacao = rotacionar(transformacoes[i][1], transformacoes[i][2]);
+                }
+                else if (transformacoes[i][0] == 4)
+                {
+                    transformacao = refletir(transformacoes[i][1]);
+                }
+                else if (transformacoes[i][0] == 5)
+                {
+                    transformacao = cisalhar(transformacoes[i][1], transformacoes[i][2], transformacoes[i][3], transformacoes[i][4]);
+                }
+
+                // Atualiza a transformação.
+                matrizTransformada = multiplicar(matrizTransformada, transformacao);
+            }
+
+            // Realiza a translação inversa (Voltando para a posição original).
+            matrizTransformada = multiplicar(matrizTransformada, transladar(X_original, Y_original, Z_original));
+            
+            // Aplica as transformações.
             Referencias.listaRetas = multiplicar(Referencias.listaRetas, matrizTransformada);
+
+            // Atualiza a interface com as transformações.
             atualizarInterface();
 
             // Apaga as transformações.

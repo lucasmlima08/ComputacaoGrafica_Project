@@ -69,8 +69,7 @@ namespace ComputacaoGraficaProject
         private void limparTela_Click(object sender, EventArgs e)
         {
             limparDados();
-            imagemIniciada = false;
-            validacaoImagem();
+            resetarImagem();
         }
 
         // Limpar dados.
@@ -108,17 +107,17 @@ namespace ComputacaoGraficaProject
 
             if (button == tTransladar)
             {
-                info = new double[] { 1, Double.Parse(X_Translacao.Text), Double.Parse(Y_Translacao.Text) };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Transladar(" + Double.Parse(X_Translacao.Text) + ", " + Double.Parse(Y_Translacao.Text) + ")" });
+                info = new double[] { 1, double.Parse(X_Translacao.Text), double.Parse(Y_Translacao.Text) };
+                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Transladar(" + double.Parse(X_Translacao.Text) + ", " + double.Parse(Y_Translacao.Text) + ")" });
             }
             else if (button == tEscalonar)
             {
-                info = new double[] { 2, Double.Parse(X_Escala.Text), Double.Parse(Y_Escala.Text) };
+                info = new double[] { 2, double.Parse(X_Escala.Text), double.Parse(Y_Escala.Text) };
                 listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Escalonar(" + X_Escala.Text + "," + Y_Escala.Text + ")" });
             }
             else if (button == tRotacionar)
             {
-                info = new double[] { 3, Double.Parse(anguloRotacao.Text) };
+                info = new double[] { 3, double.Parse(anguloRotacao.Text) };
                 listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Rotacionar(" + anguloRotacao.Text + ")" });
             }
             else if (button == tRefletir_1)
@@ -138,7 +137,7 @@ namespace ComputacaoGraficaProject
             }
             else if (button == tCisalhar)
             {
-                info = new double[] { 5, Double.Parse(X_Cisalhamento.Text), Double.Parse(Y_Cisalhamento.Text) };
+                info = new double[] { 5, double.Parse(X_Cisalhamento.Text), double.Parse(Y_Cisalhamento.Text) };
                 listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Cisalhar(" + X_Cisalhamento.Text + ", " + Y_Cisalhamento.Text + ")" });
             }
 

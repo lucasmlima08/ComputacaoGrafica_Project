@@ -73,19 +73,19 @@ namespace ComputacaoGraficaProject.Sintese.Primitivas
         }
 
         private Bitmap imagem;
-
+        
         public void plotarPixel(double X, double Y, Color corDoPixel, Bitmap imagem)
         {
             this.imagem = imagem;
 
-            try
-            {
-                int X_Dispositivo = X_MundoParaDispositivo(X);
-                int Y_Dispositivo = Y_MundoParaDispositivo(Y);
+            int X_Dispositivo = X_MundoParaDispositivo(X);
+            int Y_Dispositivo = Y_MundoParaDispositivo(Y);
 
+            // Plota o pixel se estiver dentro do limite da imagem e as coordenadas forem positivas.
+            if ((X_Dispositivo < imagem.Width) && (Y_Dispositivo < imagem.Height) && (X_Dispositivo >= 0) && (Y_Dispositivo >= 0))
+            {
                 imagem.SetPixel(X_Dispositivo, Y_Dispositivo, corDoPixel);
             }
-            catch (Exception) {}
         }
 
         public Bitmap getImage()
