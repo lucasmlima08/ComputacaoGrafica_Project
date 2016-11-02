@@ -51,7 +51,7 @@
                                 <Button x:Name="circunferenciaTrigonometrico" Content="Método Trigonométrico" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="188" Click="circunferenciaTrigonometrico_Click"/>
                             </Grid>
                         </GroupBox>
-                        <Grid Margin="0,151,0,8" Grid.Row="2" Grid.RowSpan="2">
+                        <Grid Margin="0,0,0,8" Grid.Row="3" Grid.RowSpan="2">
                             <GroupBox x:Name="groupBox2" Header="DesenharElipse" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" Width="220" BorderBrush="#FF6A6F72">
                                 <Grid Margin="0,0,0,-4">
                                     <Button x:Name="btn_DesenharElipse" Content="Desenhar Elipse" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="188" Click="btn_DesenharElipse_Click"/>
@@ -62,9 +62,7 @@
 
                                 </Grid>
                             </GroupBox>
-
                         </Grid>
-
                     </Grid>
                     <Grid Margin="0" Grid.Column="1">
                         <Grid.Background>
@@ -93,20 +91,35 @@
                     </Grid>
                     <Grid Grid.Column="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
+                            <RowDefinition Height="110"/>
+                            <RowDefinition Height="300"/>
                         </Grid.RowDefinitions>
-                        <GroupBox x:Name="groupBox1" Header="Posição do Cursor" Grid.Row="4" VerticalAlignment="Bottom" Height="109" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Margin="0,0,0,45">
-                            <Grid Margin="0,0,0,13">
-                                <Label x:Name="pontoNormalizacao" Content="Normalização: " HorizontalAlignment="Center" Margin="10,37,10,0" Width="188" FontSize="9.333" VerticalAlignment="Top"/>
-                                <Label x:Name="pontoCoordenadaDispositivo" Content="Coordenada do Dispositivo: " HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,10,-7" Width="188" FontSize="9.333"/>
-                                <Label x:Name="pontoCoordenadaMundo" Content="Coordenada de Mundo: " Margin="10,15,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" FontSize="9.333"/>
-                            </Grid>
-                        </GroupBox>
+                        <Grid Margin="0" Grid.Row="0">
+                            <GroupBox x:Name="groupBox1" Header="Posição do Cursor" Height="109" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                <Grid Margin="0,0,0,13">
+                                    <Label x:Name="pontoNormalizacao" Content="Normalização: " HorizontalAlignment="Center" Margin="10,37,10,0" Width="188" FontSize="9.333" VerticalAlignment="Top"/>
+                                    <Label x:Name="pontoCoordenadaDispositivo" Content="Coordenada do Dispositivo: " HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,10,-7" Width="188" FontSize="9.333"/>
+                                    <Label x:Name="pontoCoordenadaMundo" Content="Coordenada de Mundo: " Margin="10,15,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" FontSize="9.333"/>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                        <Grid Margin="0,0,0,8" Grid.Row="1" Grid.RowSpan="2">
+                            <GroupBox Header="Janela Viewport" HorizontalAlignment="Center" VerticalAlignment="Top" Height="150" Width="220" BorderBrush="#FF6A6F72" Margin="0,10,0,0">
+                                <Grid Margin="0,0,0,-4">
+                                    <Label Content="X min:" HorizontalAlignment="Left" Margin="4,14,0,0" VerticalAlignment="Top"/>
+                                    <TextBox x:Name="vp_X1" HorizontalAlignment="Left" Height="23" Margin="52,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40"/>
+                                    <Label  Content="X max:" HorizontalAlignment="Left" Margin="104,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.456,0.09"/>
+                                    <TextBox x:Name="vp_Y1" HorizontalAlignment="Left" Height="23" Margin="154,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40"/>
+                                    <Label Content="Y min:" HorizontalAlignment="Left" Margin="4,45,0,0" VerticalAlignment="Top"/>
+                                    <TextBox x:Name="vp_X2" HorizontalAlignment="Left" Height="23" Margin="52,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40"/>
+                                    <Label Content="Y max:" HorizontalAlignment="Left" Margin="104,45,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.456,0.09"/>
+                                    <TextBox x:Name="vp_Y2" HorizontalAlignment="Left" Height="23" Margin="154,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40"/>
+                                    <Button x:Name="btn_Recortar" Content="Recortar" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" Width="188" Click="recortarParaViewport_Click"/>
+                                    <Button x:Name="btn_DesenharViewporte" Content="Desenhar" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Width="188" Click="desenharViewport_Click"/>
+                                </Grid>
+                            </GroupBox>
+
+                        </Grid>
                     </Grid>
                 </Grid>
             </TabItem>

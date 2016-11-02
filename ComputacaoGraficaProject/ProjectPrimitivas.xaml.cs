@@ -9,6 +9,7 @@ using System.Windows.Input;
 using ComputacaoGraficaProject.View;
 using ComputacaoGraficaProject.Model;
 using ComputacaoGraficaProject.Sintese.Primitivas;
+using ComputacaoGraficaProject.Sintese.Viewporte;
 
 namespace ComputacaoGraficaProject
 {
@@ -20,8 +21,9 @@ namespace ComputacaoGraficaProject
         public ProjectPrimitivas()
         {
             InitializeComponent();
-            
-            //apagarCamposSintese();
+
+            listaRetas = new List<double[]>();
+            imagemIniciada = false;
 
             Referencias.imagemDraw = imagemDraw;
             Referencias.imageDrawAbscissas = imagemDrawAbscissas;
@@ -29,8 +31,12 @@ namespace ComputacaoGraficaProject
             Referencias.listaRetas = listaRetas;
             Referencias.listViewRetas = listViewPontos;
         }
+
+        private List<double[]> listaRetas;
+
+        private Imagem imagem;
         
-        private Boolean imagemIniciada = false;
+        private Boolean imagemIniciada;
         private Ponto ponto;
 
         private int sizeImageX = 0;
@@ -42,7 +48,7 @@ namespace ComputacaoGraficaProject
             raioCircunferencia.Text = "";
 
             listViewPontos.Items.Clear();
-            listaRetas = new List<double[]>();
+            listaRetas.Clear();
         }
         
         private Boolean validacaoCamposCircunferencia()
@@ -67,12 +73,10 @@ namespace ComputacaoGraficaProject
             {
                 sizeImageX = (int)imagemLabelAbscissas.ActualWidth;
                 sizeImageY = (int)imagemLabelAbscissas.ActualHeight;
-
                 Referencias.sizeImageX = sizeImageX;
                 Referencias.sizeImageY = sizeImageY;
-
                 imagemDraw.ImageSource = null;
-                Imagem imagem = new Imagem();
+                imagem = new Imagem();
                 imagem.desenharAbscissas2D();
                 ponto = new Ponto();
                 resolucaoTela.Content = "Resolução da Tela: " + sizeImageX + " x " + sizeImageY;
@@ -131,6 +135,7 @@ namespace ComputacaoGraficaProject
             imagemIniciada = false;
             validacaoImagem();
             apagarCamposSintese();
+            apagarCamposViewport();
             Referencias.listaRetas.Clear();
         }
 
@@ -207,10 +212,12 @@ namespace ComputacaoGraficaProject
                 if (button == bDesenharRetaDDA) // Desenha a Reta por DDA
                 {
                     retas.desenharRetas_DDA(listaRetas);
+                    imagem = new Imagem(retas.getImagem());
                 }
                 else if (button == bDesenharRetaPontoMedio) // Desenha a Reta por Ponto Médio
                 {
                     retas.desenharRetas_PontoMedio(listaRetas);
+                    imagem = new Imagem(retas.getImagem());
                 }
                 retas.atualizarImagem();
             }
@@ -235,14 +242,12 @@ namespace ComputacaoGraficaProject
             }
             return true;
         }
-        
-        private List<double[]> listaRetas = new List<double[]>();
 
         private void adicionarCoordenadaReta_Click(object sender, RoutedEventArgs e)
         {
             if (validacaoImagem() && validacaoCamposReta())
             {
-                double[] coordenadas = new double[] { Double.Parse(X_Reta.Text), Double.Parse(Y_Reta.Text), 0 };
+                double[] coordenadas = new double[] { double.Parse(X_Reta.Text), double.Parse(Y_Reta.Text), 0 };
                 listaRetas.Add(coordenadas);
 
                 listViewPontos.Items.Add(new Functions.ObjectPonto2D { X = X_Reta.Text, Y = Y_Reta.Text });
@@ -251,5 +256,127 @@ namespace ComputacaoGraficaProject
         }
 
         /* ------------------- FINAL: PARTE DE DESENHO DA RETA ------------------------------- */
+
+        /* ------------------- INÍCIO: PARTE DE RECORTE DA VIEWPORT -------------------------- */
+
+        private Boolean validacaoCamposViewport()
+        {
+            if (vp_X1.Equals("") || vp_X2.Equals("") || vp_Y1.Equals("") || vp_Y2.Equals(""))
+            {
+                MessageBox.Show("Preencha todas as coordenadas.");
+                return false;
+            }
+            if (int.Parse(vp_X1.Text) < 0 || int.Parse(vp_X2.Text) > sizeImageX / 2 ||
+                int.Parse(vp_Y1.Text) < 0 || int.Parse(vp_Y2.Text) > sizeImageY / 2)
+            {
+                MessageBox.Show("As coordenadas ultrapassam os limites da imagem.");
+                return false;
+            }
+            if (int.Parse(vp_X1.Text) > int.Parse(vp_X2.Text) ||
+                int.Parse(vp_Y1.Text) > int.Parse(vp_Y2.Text))
+            {
+                MessageBox.Show("A primeira coordenada deve ser menor do que a segunda.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool viewportDesenhada = false;
+
+        // Evento de desenho da viewport.
+        private void desenharViewport_Click(object sender, RoutedEventArgs e)
+        {
+            if (validacaoImagem() && validacaoCamposViewport())
+            {
+                desenharViewport();
+            }
+        }
+
+        private void desenharViewport()
+        {
+            // Matriz de viewport.
+            List<double[]> viewport = new List<double[]>();
+            viewport.Add(new double[] { double.Parse(vp_X1.Text), double.Parse(vp_Y1.Text) });
+            viewport.Add(new double[] { double.Parse(vp_X1.Text), double.Parse(vp_Y2.Text) });
+            viewport.Add(new double[] { double.Parse(vp_X2.Text), double.Parse(vp_Y2.Text) });
+            viewport.Add(new double[] { double.Parse(vp_X2.Text), double.Parse(vp_Y1.Text) });
+
+            apresentaViewportNaInterface(viewport);
+        }
+
+        private void recortarParaViewport_Click(object sender, RoutedEventArgs e)
+        {
+            if (Referencias.listaRetas.Count < 1)
+            {
+                MessageBox.Show("Você não desenhou uma reta.");
+            }
+            else if (!viewportDesenhada)
+            {
+                MessageBox.Show("Você não desenhou a viewport.");
+            }
+            else
+            {
+                List<double[]> listaDeRetasRecortadas = new List<double[]>();
+                listaDeRetasRecortadas.AddRange(listaRetas);
+
+                Recortar recortar = new Recortar();
+                
+                for (int i=1; i < listaRetas.Count; i++)
+                {
+                    recortar.recorte(
+                        listaRetas[i - 1][0], listaRetas[i - 1][1], 
+                        listaRetas[i][0], listaRetas[i][1],
+                        double.Parse(vp_X1.Text), double.Parse(vp_X2.Text),
+                        double.Parse(vp_Y1.Text), double.Parse(vp_Y2.Text));
+
+                    // Caso as reta esteja na zona de recorte.
+                    if (recortar.getNewX1() != 0.0 && recortar.getNewY1() != 0.0 && recortar.getNewX2() != 0 && recortar.getNewY2() != 0)
+                    {
+                        // Atualiza as coordenadas recortadas.
+                        listaDeRetasRecortadas[i - 1][0] = Math.Round(recortar.getNewX1());
+                        listaDeRetasRecortadas[i - 1][1] = Math.Round(recortar.getNewY1());
+                        listaDeRetasRecortadas[i][0] = Math.Round(recortar.getNewX2());
+                        listaDeRetasRecortadas[i][1] = Math.Round(recortar.getNewY2());
+                    }
+                }
+
+                // Desenha as retas na interface.
+                Retas retas = new Retas(null);
+                retas.desenharRetas_PontoMedio(listaDeRetasRecortadas);
+                imagem = new Imagem(retas.getImagem());
+                new Functions().listaParaViewDeCoordenadasDeRetas2D();
+
+                // Desenha a viewport na interface.
+                desenharViewport();
+            }
+        }
+
+        // Sequência para desenho da viewport na interface.
+        private void apresentaViewportNaInterface(List<double[]> viewport)
+        {
+            List<double[]> listaRetasVP = new List<double[]>();
+            listaRetasVP.Add(new double[] { viewport[0][0], viewport[0][1], 0 });
+            listaRetasVP.Add(new double[] { viewport[1][0], viewport[1][1], 0 });
+            listaRetasVP.Add(new double[] { viewport[2][0], viewport[2][1], 0 });
+            listaRetasVP.Add(new double[] { viewport[3][0], viewport[3][1], 0 });
+            listaRetasVP.Add(new double[] { viewport[0][0], viewport[0][1], 0 });
+
+            Retas retas = new Retas(imagem.getBitmap());
+            retas.desenharRetas_PontoMedio(listaRetasVP);
+            imagem = new Imagem(retas.getImagem());
+            retas.atualizarImagem();
+            viewportDesenhada = true;
+        }
+
+        private void apagarCamposViewport()
+        {
+            vp_X1.Text = "";
+            vp_X2.Text = "";
+            vp_Y1.Text = "";
+            vp_Y2.Text = "";
+            viewportDesenhada = false;
+        }
+
+        /* ------------------- FINAL: PARTE DE RECORTE DA VIEWPORT --------------------------- */
     }
 }

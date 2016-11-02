@@ -89,8 +89,8 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
         public List<double[]> cisalhar(double X, double Y)
         {
             List<double[]> matrizCisalhamento = new List<double[]>();
-            matrizCisalhamento.Add(new double[] { 0, X, 0 });
-            matrizCisalhamento.Add(new double[] { 0, Y, 0 });
+            matrizCisalhamento.Add(new double[] { 1, X, 0 });
+            matrizCisalhamento.Add(new double[] { Y, 1, 0 });
             matrizCisalhamento.Add(new double[] { 0, 0, 1 });
 
             return matrizCisalhamento;
@@ -139,7 +139,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
 
             return matrizIdentidade;
         }
-        
+
         // Percorre o conjunto de transformações e realiza todas em sequênca.
         public void conjuntoDeTransformacoes(List<double[]> transformacoes)
         {
@@ -164,7 +164,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             matrizTransformada = multiplicar(matrizTransformada, transladar(-X_original, -Y_original));
 
             // Aplica as transformações
-            for (int i=0; i < transformacoes.Count; i++)
+            for (int i = 0; i < transformacoes.Count; i++)
             {
                 List<double[]> transformacao = matrizIdentidade();
 
@@ -203,16 +203,34 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             matrizTransformada = multiplicar(matrizTransformada, transladar(X_original, Y_original));
 
             // Aplica as transformações.
-            Referencias.listaRetas = multiplicar(Referencias.listaRetas, matrizTransformada);
+            matrizTransformada = multiplicar(matrizTransformada, Referencias.matrizObjeto);
+
+            // apresenta na interface.
+            apresentarObjetoNaInterface(matrizTransformada);
+            transformacoes.Clear();
+        }
+
+        // Apresenta o objeto na interface.
+        private void apresentarObjetoNaInterface(List<double[]> matrizTransformada)
+        {
+            Referencias.matrizObjeto = matrizTransformada;
+
+            // Lista de retas para apresentar na interface.
+            List <double[]> listaRetas = new List<double[]>();
+            for (int i = 0; i < Referencias.matrizObjeto[0].Length; i++)
+            {
+                listaRetas.Add(new double[] { Referencias.matrizObjeto[0][i], Referencias.matrizObjeto[1][i], 0 });
+            }
+            listaRetas.Add(new double[] { Referencias.matrizObjeto[0][0], Referencias.matrizObjeto[1][0], 0 });
+            Referencias.listaRetas = listaRetas;
 
             // Atualiza a interface com as transformações.
             atualizarInterface();
 
             // Apaga as transformações.
-            transformacoes.Clear();
             matrizTransformada.Clear();
         }
-
+        
         // Atualiza a lista de coordenadas e a imagem na tela.
         private void atualizarInterface()
         {

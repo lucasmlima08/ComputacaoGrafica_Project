@@ -115,7 +115,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
         }
 
         // Retorna a matriz do cisalhamento.
-        public List<double[]> cisalhar(double X, double Y, double Z, double eixo)
+        public List<double[]> cisalhar(double A, double B, double eixo)
         {
             // Matriz do cisalhamento
             List<double[]> matrizCisalhamento = new List<double[]>();
@@ -123,21 +123,21 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             if (eixo == 1) // Eixo X
             {
                 matrizCisalhamento.Add(new double[] { 1, 0, 0, 0 });
-                matrizCisalhamento.Add(new double[] { 0, 1, Y, 0 });
-                matrizCisalhamento.Add(new double[] { 0, 0, Z, 0 });
+                matrizCisalhamento.Add(new double[] { A, 1, 0, 0 });
+                matrizCisalhamento.Add(new double[] { B, 0, 1, 0 });
                 matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
             }
             else if (eixo == 2) // Eixo Y
             {
-                matrizCisalhamento.Add(new double[] { 1, 0, X, 0 });
+                matrizCisalhamento.Add(new double[] { 1, A, 0, 0 });
                 matrizCisalhamento.Add(new double[] { 0, 1, 0, 0 });
-                matrizCisalhamento.Add(new double[] { 0, 0, Z, 0 });
+                matrizCisalhamento.Add(new double[] { 0, B, 1, 0 });
                 matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
             }
             else if (eixo == 3) // Eixo Z
             {
-                matrizCisalhamento.Add(new double[] { 1, 0, X, 0 });
-                matrizCisalhamento.Add(new double[] { 0, 1, Y, 0 });
+                matrizCisalhamento.Add(new double[] { 1, 0, A, 0 });
+                matrizCisalhamento.Add(new double[] { 0, 1, B, 0 });
                 matrizCisalhamento.Add(new double[] { 0, 0, 1, 0 });
                 matrizCisalhamento.Add(new double[] { 0, 0, 0, 1 });
             }
@@ -245,7 +245,7 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
                 }
                 else if (transformacoes[i][0] == 5)
                 {
-                    transformacao = cisalhar(transformacoes[i][1], transformacoes[i][2], transformacoes[i][3], transformacoes[i][4]);
+                    transformacao = cisalhar(transformacoes[i][1], transformacoes[i][2], transformacoes[i][3]);
                 }
 
                 // Atualiza a transformação.
@@ -256,14 +256,38 @@ namespace ComputacaoGraficaProject.Sintese.Transformacoes
             matrizTransformada = multiplicar(matrizTransformada, transladar(X_original, Y_original, Z_original));
             
             // Aplica as transformações.
-            Referencias.listaRetas = multiplicar(Referencias.listaRetas, matrizTransformada);
+            matrizTransformada = multiplicar(matrizTransformada, Referencias.matrizObjeto);
 
-            // Atualiza a interface com as transformações.
-            atualizarInterface();
-
-            // Apaga as transformações.
+            // apresenta na interface.
+            apresentarObjetoNaInterface(matrizTransformada);
             transformacoes.Clear();
-            matrizTransformada.Clear();
+        }
+
+        // Apresenta o objeto na interface.
+        private void apresentarObjetoNaInterface(List<double[]> matrizObjeto)
+        {
+            List<double[]> listaRetas = new List<double[]>();
+            listaRetas.Add(new double[] { matrizObjeto[0][0], matrizObjeto[1][0], matrizObjeto[2][0] });
+            listaRetas.Add(new double[] { matrizObjeto[0][1], matrizObjeto[1][1], matrizObjeto[2][1] });
+            listaRetas.Add(new double[] { matrizObjeto[0][2], matrizObjeto[1][2], matrizObjeto[2][2] });
+            listaRetas.Add(new double[] { matrizObjeto[0][3], matrizObjeto[1][3], matrizObjeto[2][3] });
+            listaRetas.Add(new double[] { matrizObjeto[0][0], matrizObjeto[1][0], matrizObjeto[2][0] });
+            listaRetas.Add(new double[] { matrizObjeto[0][4], matrizObjeto[1][4], matrizObjeto[2][4] });
+            listaRetas.Add(new double[] { matrizObjeto[0][5], matrizObjeto[1][5], matrizObjeto[2][5] });
+            listaRetas.Add(new double[] { matrizObjeto[0][1], matrizObjeto[1][1], matrizObjeto[2][1] });
+            listaRetas.Add(new double[] { matrizObjeto[0][5], matrizObjeto[1][5], matrizObjeto[2][5] });
+            listaRetas.Add(new double[] { matrizObjeto[0][7], matrizObjeto[1][7], matrizObjeto[2][7] });
+            listaRetas.Add(new double[] { matrizObjeto[0][2], matrizObjeto[1][2], matrizObjeto[2][2] });
+            listaRetas.Add(new double[] { matrizObjeto[0][7], matrizObjeto[1][7], matrizObjeto[2][7] });
+            listaRetas.Add(new double[] { matrizObjeto[0][6], matrizObjeto[1][6], matrizObjeto[2][6] });
+            listaRetas.Add(new double[] { matrizObjeto[0][3], matrizObjeto[1][3], matrizObjeto[2][3] });
+            listaRetas.Add(new double[] { matrizObjeto[0][6], matrizObjeto[1][6], matrizObjeto[2][6] });
+            listaRetas.Add(new double[] { matrizObjeto[0][4], matrizObjeto[1][4], matrizObjeto[2][4] });
+            Referencias.listaRetas = listaRetas;
+
+            Retas retas = new Retas(null);
+            retas.desenharRetas_PontoMedio(listaRetas);
+            retas.atualizarImagem();
         }
 
         // Atualiza a lista de coordenadas do objeto na imagem.

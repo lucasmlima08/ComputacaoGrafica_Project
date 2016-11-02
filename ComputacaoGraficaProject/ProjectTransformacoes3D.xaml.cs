@@ -30,6 +30,8 @@ namespace ComputacaoGraficaProject
 
             Referencias.listaTransformacoes = listaTransformacoes;
             Referencias.listViewTransformacoes = listViewTransformacoes;
+
+            limparDados();
         }
         
         private Boolean imagemIniciada = false;
@@ -81,7 +83,7 @@ namespace ComputacaoGraficaProject
             X_Translacao.Text = ""; Y_Translacao.Text = ""; Z_Translacao.Text = "";
             X_Escala.Text = ""; Y_Escala.Text = ""; Z_Escala.Text = "";
             anguloRotacao.Text = "";
-            X_Cisalhamento.Text = ""; Y_Cisalhamento.Text = ""; Z_Cisalhamento.Text = "";
+            A_Cisalhamento.Text = ""; B_Cisalhamento.Text = "";
         }
         
         private List<double[]> listaTransformacoes = new List<double[]>();
@@ -102,69 +104,87 @@ namespace ComputacaoGraficaProject
         // Evento que envia para a classe de transformação, o tipo de transformação escolhida pelo usuário.
         private void bTransformacao_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            
-            double[] info = null;
+            try
+            {
+                Button button = sender as Button;
 
-            // info[0] = tipo de transformação.
-            // info[n] = parâmetros da transformação.
+                double[] info = null;
 
-            if (button == tTransladar)
-            {
-                info = new double[] { 1, double.Parse(X_Translacao.Text), double.Parse(Y_Translacao.Text), double.Parse(Z_Translacao.Text) };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Transladar(" + double.Parse(X_Translacao.Text) + ", " + double.Parse(Y_Translacao.Text) + ", " + double.Parse(Z_Translacao.Text) + ")" });
-            }
-            else if (button == tEscalonar)
-            {
-                info = new double[] { 2, double.Parse(X_Escala.Text), double.Parse(Y_Escala.Text), double.Parse(Z_Escala.Text) };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Escalonar(" + X_Escala.Text + "," + Y_Escala.Text + "," + Z_Escala.Text + ")" });
-            }
-            else if (button == tRotacionar)
-            {
-                int tipo = 1;
-                String tipoString = "";
-                if (eixoRotacao.Content.Equals("X"))
+                // info[0] = tipo de transformação.
+                // info[n] = parâmetros da transformação.
+
+                if (button == tTransladar)
                 {
-                    tipo = 1;
-                    tipoString = "X";
+                    info = new double[] { 1, double.Parse(X_Translacao.Text), double.Parse(Y_Translacao.Text), double.Parse(Z_Translacao.Text) };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Transladar(" + double.Parse(X_Translacao.Text) + ", " + double.Parse(Y_Translacao.Text) + ", " + double.Parse(Z_Translacao.Text) + ")" });
                 }
-                else if (eixoRotacao.Content.Equals("Y"))
+                else if (button == tEscalonar)
                 {
-                    tipo = 2;
-                    tipoString = "Y";
+                    info = new double[] { 2, double.Parse(X_Escala.Text), double.Parse(Y_Escala.Text), double.Parse(Z_Escala.Text) };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Escalonar(" + X_Escala.Text + "," + Y_Escala.Text + "," + Z_Escala.Text + ")" });
                 }
-                else
+                else if (button == tRotacionar)
                 {
-                    tipo = 3;
-                    tipoString = "Z";
+                    int tipo = 1;
+                    String tipoString = "";
+                    if (eixoRotacao.SelectedIndex == 0)
+                    {
+                        tipo = 1;
+                        tipoString = "X";
+                    }
+                    else if (eixoRotacao.SelectedIndex == 1)
+                    {
+                        tipo = 2;
+                        tipoString = "Y";
+                    }
+                    else
+                    {
+                        tipo = 3;
+                        tipoString = "Z";
+                    }
+                    info = new double[] { 3, double.Parse(anguloRotacao.Text), tipo };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Rotacionar(" + anguloRotacao.Text + " Em " + tipoString + ")" });
                 }
-                info = new double[] { 3, double.Parse(anguloRotacao.Text), tipo };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Rotacionar(" + anguloRotacao.Text + " Em " + tipoString + ")" });
-            }
-            else if (button == tRefletir_1)
-            {
-                info = new double[] { 4, 1 };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em X" });
-            }
-            else if (button == tRefletir_2)
-            {
-                info = new double[] { 4, 2 };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em Y" });
-            }
-            else if (button == tRefletir_3)
-            {
-                info = new double[] { 4, 3 };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em X e Y" });
-            }
-            else if (button == tCisalhar)
-            {
-                // Escolher o eixo.
+                else if (button == tRefletir_1)
+                {
+                    info = new double[] { 4, 1 };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em XY" });
+                }
+                else if (button == tRefletir_2)
+                {
+                    info = new double[] { 4, 2 };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em YZ" });
+                }
+                else if (button == tRefletir_3)
+                {
+                    info = new double[] { 4, 3 };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Refletir em XZ" });
+                }
+                else if (button == tCisalhar)
+                {
+                    int tipo = 1;
+                    String tipoString = "";
+                    if (eixoCisalhamento.SelectedIndex == 0)
+                    {
+                        tipo = 1;
+                        tipoString = "X";
+                    }
+                    else if (eixoCisalhamento.SelectedIndex == 1)
+                    {
+                        tipo = 2;
+                        tipoString = "Y";
+                    }
+                    else
+                    {
+                        tipo = 3;
+                        tipoString = "Z";
+                    }
+                    info = new double[] { 5, double.Parse(A_Cisalhamento.Text), double.Parse(B_Cisalhamento.Text), tipo };
+                    listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Cisalhar( Em " + tipoString + ": A = " + double.Parse(A_Cisalhamento.Text) + ", B = " + double.Parse(B_Cisalhamento.Text) + ")" });
+                }
 
-                info = new double[] { 5, double.Parse(X_Cisalhamento.Text), double.Parse(Y_Cisalhamento.Text), double.Parse(Z_Cisalhamento.Text), 1 };
-                listViewTransformacoes.Items.Add(new Functions.ObjectTransformacao { Transformacao = "Cisalhar(" + double.Parse(X_Cisalhamento.Text) + ", " + double.Parse(Y_Cisalhamento.Text) + ", " + double.Parse(Z_Cisalhamento.Text) + ")" });
-            }
-
-            listaTransformacoes.Insert(0, info);
+                listaTransformacoes.Insert(0, info);
+            } catch (Exception) { MessageBox.Show("Preencha todos os campos!"); };
         }
 
         private List<double[]> listaRetas = new List<double[]>();
@@ -172,40 +192,39 @@ namespace ComputacaoGraficaProject
         // Desenha um cubo na imagem de transformação.
         private void btn_inserirCubo_Click(object sender, RoutedEventArgs e)
         {
+            inserirCubo();
+        }
+        
+        // Desenha um cubo na imagem de transformação.
+        private void btn_inserirRetangulo_Click(object sender, RoutedEventArgs e)
+        {
+            inserirRetangulo();
+        }
+
+        // Insere um cubo na interface.
+        private void inserirCubo()
+        {
             limparDados();
             resetarImagem();
 
-            int tamXY = 100;
+            int tamX = 100;
+            int tamY = 100;
             int tamZ = 50;
-            
-            Bitmap bitmap = new Bitmap(sizeImageX, sizeImageY);
-            
-            Referencias.listaRetas.Add(new double[] { 0, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, tamXY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamXY, tamXY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamXY, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, tamXY, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, tamXY, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, tamXY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamXY, tamXY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamXY, tamXY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamXY, tamXY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamXY, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamXY, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { tamXY, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, 0, tamZ });
-            
-            bitmap = desenharSequencia(bitmap, Referencias.listaRetas);
-            inserirCoordenadasNaTabela(Referencias.listaRetas);
 
-            Retas retas = new Retas(bitmap);
-            retas.atualizarImagem();
+            // Matriz do retângulo.
+            List<double[]> matrizQuadrado = new List<double[]>();
+            matrizQuadrado.Add(new double[] { 0, 0, tamX, tamX, 0, 0, tamX, tamX });
+            matrizQuadrado.Add(new double[] { 0, tamY, tamY, 0, 0, tamY, 0, tamY });
+            matrizQuadrado.Add(new double[] { 0, 0, 0, 0, tamZ, tamZ, tamZ, tamZ });
+            matrizQuadrado.Add(new double[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            Referencias.matrizObjeto = matrizQuadrado;
+
+            // Apresenta o retângulo na interface.
+            apresentarObjetoNaInterface(matrizQuadrado);
         }
 
-        // Desenha um cubo na imagem de transformação.
-        private void btn_inserirRetangulo_Click(object sender, RoutedEventArgs e)
+        // Insere um retângulo na interface.
+        private void inserirRetangulo()
         {
             limparDados();
             resetarImagem();
@@ -214,49 +233,43 @@ namespace ComputacaoGraficaProject
             int tamY = 50;
             int tamZ = 20;
 
-            Bitmap bitmap = new Bitmap(sizeImageX, sizeImageY);
+            // Matriz do retângulo.
+            List<double[]> matrizRetangulo = new List<double[]>();
+            matrizRetangulo.Add(new double[] { 0, 0, tamX, tamX, 0, 0, tamX, tamX });
+            matrizRetangulo.Add(new double[] { 0, tamY, tamY, 0, 0, tamY, 0, tamY });
+            matrizRetangulo.Add(new double[] { 0, 0, 0, 0, tamZ, tamZ, tamZ, tamZ });
+            matrizRetangulo.Add(new double[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            Referencias.matrizObjeto = matrizRetangulo;
 
-            Referencias.listaRetas.Add(new double[] { 0, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, tamY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamX, tamY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamX, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, tamY, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, tamY, 0 });
-            Referencias.listaRetas.Add(new double[] { 0, tamY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamX, tamY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamX, tamY, 0 });
-            Referencias.listaRetas.Add(new double[] { tamX, tamY, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamX, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { tamX, 0, 0 });
-            Referencias.listaRetas.Add(new double[] { tamX, 0, tamZ });
-            Referencias.listaRetas.Add(new double[] { 0, 0, tamZ });
+            // Apresenta o retângulo na interface.
+            apresentarObjetoNaInterface(matrizRetangulo);
+        }
 
-            bitmap = desenharSequencia(bitmap, Referencias.listaRetas);
-            inserirCoordenadasNaTabela(Referencias.listaRetas);
+        // Apresenta o objeto na interface.
+        private void apresentarObjetoNaInterface(List<double[]> matrizObjeto)
+        {
+            List<double[]> listaRetas = new List<double[]>();
+            listaRetas.Add(new double[] { matrizObjeto[0][0], matrizObjeto[1][0], matrizObjeto[2][0] });
+            listaRetas.Add(new double[] { matrizObjeto[0][1], matrizObjeto[1][1], matrizObjeto[2][1] });
+            listaRetas.Add(new double[] { matrizObjeto[0][2], matrizObjeto[1][2], matrizObjeto[2][2] });
+            listaRetas.Add(new double[] { matrizObjeto[0][3], matrizObjeto[1][3], matrizObjeto[2][3] });
+            listaRetas.Add(new double[] { matrizObjeto[0][0], matrizObjeto[1][0], matrizObjeto[2][0] });
+            listaRetas.Add(new double[] { matrizObjeto[0][4], matrizObjeto[1][4], matrizObjeto[2][4] });
+            listaRetas.Add(new double[] { matrizObjeto[0][5], matrizObjeto[1][5], matrizObjeto[2][5] });
+            listaRetas.Add(new double[] { matrizObjeto[0][1], matrizObjeto[1][1], matrizObjeto[2][1] });
+            listaRetas.Add(new double[] { matrizObjeto[0][5], matrizObjeto[1][5], matrizObjeto[2][5] });
+            listaRetas.Add(new double[] { matrizObjeto[0][7], matrizObjeto[1][7], matrizObjeto[2][7] });
+            listaRetas.Add(new double[] { matrizObjeto[0][2], matrizObjeto[1][2], matrizObjeto[2][2] });
+            listaRetas.Add(new double[] { matrizObjeto[0][7], matrizObjeto[1][7], matrizObjeto[2][7] });
+            listaRetas.Add(new double[] { matrizObjeto[0][6], matrizObjeto[1][6], matrizObjeto[2][6] });
+            listaRetas.Add(new double[] { matrizObjeto[0][3], matrizObjeto[1][3], matrizObjeto[2][3] });
+            listaRetas.Add(new double[] { matrizObjeto[0][6], matrizObjeto[1][6], matrizObjeto[2][6] });
+            listaRetas.Add(new double[] { matrizObjeto[0][4], matrizObjeto[1][4], matrizObjeto[2][4] });
+            Referencias.listaRetas = listaRetas;
 
-            Retas retas = new Retas(bitmap);
+            Retas retas = new Retas(null);
+            retas.desenharRetas_PontoMedio(listaRetas);
             retas.atualizarImagem();
-        }
-
-        // Desenha a sequência de retas.
-        private Bitmap desenharSequencia(Bitmap bitmap, List<double[]> listaRetas)
-        {
-            Retas retas = new Retas(bitmap);
-            retas.desenharRetas_PontoMedio(Referencias.listaRetas);
-            bitmap = retas.getImagem();
-            return bitmap;
-        }
-
-        // Insere as coordenadas do objeto na tabela de apresentação ao usuário.
-        private void inserirCoordenadasNaTabela(List<double[]> listaRetas)
-        {
-            listViewPontos.Items.Clear();
-            for (int i = 0; i < listaRetas.Count; i++)
-            {
-                listViewPontos.Items.Add(new Functions.ObjectPonto3D { X = listaRetas[i][0] + "", Y = listaRetas[i][1] + "", Z = listaRetas[i][2] + "" });
-            }
         }
     }
 }

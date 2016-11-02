@@ -68,6 +68,7 @@
     <Compile Include="Sintese\Primitivas\Ponto.cs" />
     <Compile Include="Sintese\Primitivas\Circunferencia.cs" />
     <Compile Include="Sintese\Primitivas\Retas.cs" />
+    <Compile Include="Sintese\Viewporte\Recortar.cs" />
     <Compile Include="Sintese\Transformacoes\Transformacoes3D.cs" />
     <Compile Include="Sintese\Transformacoes\Transformacoes2D.cs" />
     <Compile Include="View\Imagem.cs" />
@@ -130,10 +131,7 @@
   <ItemGroup>
     <Resource Include="Imagens\icon_cg.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Processamento\" />
-    <Folder Include="Sintese\Recorte\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -101,8 +101,8 @@
                             <Grid Margin="0">
                                 <Label Content="Ângulo: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
                                 <TextBox x:Name="anguloRotacao" TextWrapping="Wrap" Margin="64,10,94,32" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="0.56,0.5"/>
-                                <Label x:Name="eixoRotacao" Content="Eixo: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,10,0,0" Width="34"/>
-                                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="158,10,0,0" VerticalAlignment="Top" Width="40">
+                                <Label Content="Eixo: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,10,0,0" Width="34"/>
+                                <ComboBox x:Name="eixoRotacao" HorizontalAlignment="Left" Margin="158,10,0,0" VerticalAlignment="Top" Width="40">
                                     <ComboBoxItem Content="X" IsSelected="True"/>
                                     <ComboBoxItem Content="Y"/>
                                     <ComboBoxItem Content="Z"/>
@@ -112,19 +112,23 @@
                         </GroupBox>
                         <GroupBox Header="Reflexão" VerticalAlignment="Top" Height="90" Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
                             <Grid Margin="0">
-                                <Button x:Name="tRefletir_1" Content="Refletir em torno de X" Margin="0" VerticalAlignment="Top" Click="bTransformacao_Click"/>
-                                <Button x:Name="tRefletir_2" Content="Refletir em torno de Y" Margin="0" VerticalAlignment="Center" Click="bTransformacao_Click"/>
-                                <Button x:Name="tRefletir_3" Content="Refletir em torno de Z" Margin="0" VerticalAlignment="Bottom" Click="bTransformacao_Click"/>
+                                <Button x:Name="tRefletir_1" Content="Refletir em torno de XY" Margin="0" VerticalAlignment="Top" Click="bTransformacao_Click"/>
+                                <Button x:Name="tRefletir_2" Content="Refletir em torno de YZ" Margin="0" VerticalAlignment="Center" Click="bTransformacao_Click"/>
+                                <Button x:Name="tRefletir_3" Content="Refletir em torno de XZ" Margin="0" VerticalAlignment="Bottom" Click="bTransformacao_Click"/>
                             </Grid>
                         </GroupBox>
                         <GroupBox Header="Cisalhamento" VerticalAlignment="Top" Height="90" Grid.Row="6" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
                             <Grid Margin="0">
-                                <Label Content="X: " Margin="0,13,0,31" RenderTransformOrigin="1.632,1.582" HorizontalAlignment="Left" Width="18" HorizontalContentAlignment="Center"/>
-                                <TextBox x:Name="X_Cisalhamento" Margin="23,13,0,31" TextWrapping="Wrap" Width="40" HorizontalAlignment="Left" UndoLimit="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="-0.8,0.292"/>
-                                <Label Content="Y: " Margin="0,13,120,31" RenderTransformOrigin="1.632,1.582" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="20"/>
-                                <TextBox x:Name="Y_Cisalhamento" Margin="93,13,75,31" TextWrapping="Wrap" UndoLimit="3" RenderTransformOrigin="0.51,0.483" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="Z: " Margin="0,13,50,31" RenderTransformOrigin="1.632,1.582" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="20"/>
-                                <TextBox x:Name="Z_Cisalhamento" Margin="163,13,5,31" TextWrapping="Wrap" UndoLimit="3" RenderTransformOrigin="0.51,0.483" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="A:" Margin="0,13,0,31" RenderTransformOrigin="1.632,1.582" HorizontalAlignment="Left" Width="18" HorizontalContentAlignment="Center"/>
+                                <TextBox x:Name="A_Cisalhamento" Margin="18,13,0,31" TextWrapping="Wrap" Width="35" HorizontalAlignment="Left" UndoLimit="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="-0.8,0.292"/>
+                                <Label Content="B:" Margin="0,13,130,31" RenderTransformOrigin="1.632,1.582" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="20"/>
+                                <TextBox x:Name="B_Cisalhamento" Margin="79,13,94,31" TextWrapping="Wrap" Width="35" UndoLimit="3" RenderTransformOrigin="0.51,0.483" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="Eixo: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,10,0,0" Width="34"/>
+                                <ComboBox x:Name="eixoCisalhamento" HorizontalAlignment="Left" Margin="158,10,0,0" VerticalAlignment="Top" Width="40">
+                                    <ComboBoxItem Content="X" IsSelected="True"/>
+                                    <ComboBoxItem Content="Y"/>
+                                    <ComboBoxItem Content="Z"/>
+                                </ComboBox>
                                 <Button x:Name="tCisalhar" Content="Cisalhar" Margin="0" d:LayoutOverrides="Height" VerticalAlignment="Bottom" Click="bTransformacao_Click"/>
                             </Grid>
                         </GroupBox>

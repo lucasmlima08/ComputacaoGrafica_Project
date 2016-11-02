@@ -12,6 +12,11 @@ namespace ComputacaoGraficaProject.View
     {
         private Bitmap imagem;
 
+        public Imagem(Bitmap imagem)
+        {
+            this.imagem = imagem;
+        }
+
         public Imagem()
         {
             imagem = new Bitmap(Referencias.sizeImageX, Referencias.sizeImageY);
@@ -93,6 +98,11 @@ namespace ComputacaoGraficaProject.View
             BitmapSizeOptions.FromEmptyOptions());
 
             Referencias.imageDrawAbscissas.ImageSource = bitmapSource;
+        }
+
+        public Bitmap getBitmap()
+        {
+            return imagem;
         }
     }
 }

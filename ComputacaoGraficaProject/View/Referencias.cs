@@ -22,6 +22,8 @@ namespace ComputacaoGraficaProject.View
         public static int sizeImageX;
         public static int sizeImageY;
 
+        public static List<double[]> matrizObjeto;
+
         public static ListView listViewRetas;
         public static List<double[]> listaRetas;
 

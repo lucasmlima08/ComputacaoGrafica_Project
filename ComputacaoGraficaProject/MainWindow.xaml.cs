@@ -49,10 +49,10 @@ namespace ComputacaoGraficaProject
                 ProjectTransformacoes3D transformacoes3D = new ProjectTransformacoes3D();
                 transformacoes3D.Show();
             }
-            else if (button == bProcessamento)
+            /*else if (button == bProcessamento)
             {
 
-            }
+            }*/
         }
     }
 }
